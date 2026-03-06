@@ -1,0 +1,97 @@
+{
+    "rules": {
+        "secure_codes": {
+            ".read": false,
+            ".write": false
+        },
+        
+        "users": {
+            ".read": "auth != null",
+            "$uid": {
+                ".read": "auth != null",
+                ".write": "$uid === auth.uid",
+                
+                "friendRequests": {
+                    ".read": "$uid === auth.uid",
+                    "$requestId": { 
+                        ".write": "auth != null",
+                        ".validate": "newData.hasChildren(['fromUid', 'fromNickname', 'timestamp'])"
+                    }
+                },
+                "gameInvites": {
+                    ".read": "$uid === auth.uid",
+                    "$inviteId": { 
+                        ".write": "auth != null",
+                        ".validate": "newData.hasChildren(['fromUid', 'roomCode']) || !newData.exists()"
+                    }
+                },
+                "friends": {
+                    ".read": "$uid === auth.uid",
+                    ".write": "$uid === auth.uid",
+                    "$friendId": { 
+                        ".write": "auth != null && ($friendId === auth.uid || auth.uid === $uid)"
+                    }
+                },
+
+                "stats": {
+                    ".write": "false"
+                },
+                "history": {
+                    ".write": "false"
+                }
+            }
+        },
+        
+        "games": {
+            ".indexOn": ["gameStatus", "createdAt"],
+            "$roomId": {
+                ".read": true,
+                ".write": "auth != null && !data.exists()",
+                
+                "players": {
+                    "white": {
+                        ".write": "auth != null && (!data.exists() || data.val() === false || data.val() === auth.uid) && root.child('games').child($roomId).child('players/black').val() !== auth.uid"
+                    },
+                    "black": {
+                        ".write": "auth != null && (!data.exists() || data.val() === false || data.val() === auth.uid) && root.child('games').child($roomId).child('players/white').val() !== auth.uid"
+                    }
+                },
+                
+                "nicknames": {
+                   "white": { 
+                       ".write": "auth != null && (root.child('games').child($roomId).child('players/white').val() === auth.uid || !root.child('games').child($roomId).child('players/white').exists())" 
+                   },
+                   "black": { 
+                       ".write": "auth != null && (root.child('games').child($roomId).child('players/black').val() === auth.uid || !root.child('games').child($roomId).child('players/black').exists())" 
+                   }
+                },
+                
+                "presence": {
+                    "$color": {
+                        ".write": "auth != null && root.child('games').child($roomId).child('players').child($color).val() === auth.uid"
+                    }
+                },
+                
+                "gameStatus": {
+                    ".write": "false"
+                },
+                
+                "winner": {
+                    ".write": "false"
+                },
+                
+                "reason": {
+                    ".write": "false"
+                }
+            }
+        },
+        
+        "moveQueue": {
+            ".read": false,
+            ".write": "auth != null",
+            "$moveId": {
+                ".validate": "newData.hasChildren(['roomId', 'by', 'timestamp', 'senderUid']) && newData.child('senderUid').val() === auth.uid && (newData.child('type').val() === 'surrender' || newData.child('type').val() === 'claim_timeout' || (newData.hasChild('from') && newData.hasChild('to')))"
+            }
+        }
+    }
+}

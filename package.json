@@ -1,0 +1,47 @@
+{
+  "name": "tamerlane-chess-online",
+  "version": "1.0.1",
+  "description": "Online multiplayer Tamerlane Chess game with Firebase",
+  "main": "server.js",
+  "scripts": {
+    "start": "tsx server.js",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "server": "tsx watch server.js"
+  },
+  "keywords": [
+    "chess",
+    "tamerlane",
+    "multiplayer",
+    "firebase",
+    "express"
+  ],
+  "author": "Tamerlane Chess Team",
+  "license": "MIT",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "firebase-admin": "^12.0.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.12.0",
+    "resend": "^3.1.0",
+    "tsx": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
