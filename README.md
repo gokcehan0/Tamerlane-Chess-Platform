@@ -96,7 +96,7 @@ Experience the strategic depth that challenged one of history's greatest militar
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/tamerlane-chess-platform.git
+    git clone https://github.com/gokcehan0/Tamerlane-Chess-Platform.git
     cd tamerlane-chess-platform
     ```
 
